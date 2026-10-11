@@ -1,12 +1,11 @@
 <p align="center">
   <a href="https://nextjs.org/" target="blank">
-    <picture>
-      <source media="(prefers-color-scheme: light)" srcset="https://cdn.simpleicons.org/nextdotjs/white" />
-      <img src="https://cdn.simpleicons.org/nextdotjs/000000" width="80" alt="Next.js Logo" />
-    </picture>
+    <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white&logoSize=auto" height="70" align="middle" alt="Next.js" />
   </a>
   &nbsp;&nbsp;&nbsp;
-  <a href="https://www.docker.com/" target="blank"><img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" width="110" alt="Docker Logo" /></a>
+  <a href="https://www.docker.com/" target="blank">
+    <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" height="70" align="middle" alt="Docker Logo" />
+  </a>
 </p>
 
 <h1 align="center">Job Tracker Lite</h1>
@@ -41,19 +40,19 @@
 
 ## Tech Stack
 
-| Layer           | Technology                                        |
-| --------------- | ------------------------------------------------- |
-| Framework       | Next.js 16 (App Router)                           |
-| UI Library      | React 19 with the React Compiler                  |
-| Language        | TypeScript                                        |
-| Styling         | Tailwind CSS 4, `tw-animate-css`                  |
-| Components      | shadcn/ui, Base UI                                |
-| Data Fetching   | TanStack Query                                    |
-| Forms           | React Hook Form, `@hookform/resolvers`            |
-| Validation      | Zod 4                                             |
-| Icons           | lucide-react, react-icons                         |
-| Package Manager | Bun                                               |
-| Container       | Docker                                            |
+| Layer           | Technology                             |
+| --------------- | -------------------------------------- |
+| Framework       | Next.js 16 (App Router)                |
+| UI Library      | React 19 with the React Compiler       |
+| Language        | TypeScript                             |
+| Styling         | Tailwind CSS 4, `tw-animate-css`       |
+| Components      | shadcn/ui, Base UI                     |
+| Data Fetching   | TanStack Query                         |
+| Forms           | React Hook Form, `@hookform/resolvers` |
+| Validation      | Zod 4                                  |
+| Icons           | lucide-react, react-icons              |
+| Package Manager | Bun                                    |
+| Container       | Docker                                 |
 
 ## Getting Started
 
@@ -81,24 +80,24 @@ bun run start
 
 ### Scripts
 
-| Script          | Description                          |
-| --------------- | ------------------------------------ |
-| `bun run dev`   | Start the dev server                 |
-| `bun run build` | Create a production build            |
-| `bun run start` | Run the production build             |
-| `bun run lint`  | Lint with ESLint                     |
+| Script          | Description                                     |
+| --------------- | ----------------------------------------------- |
+| `bun run dev`   | Start the dev server                            |
+| `bun run build` | Create a production build                       |
+| `bun run start` | Run the production build                        |
+| `bun run lint`  | Lint with ESLint                                |
 | `bun run ui`    | Add a shadcn/ui component (`bun run ui button`) |
 
 ## Backend
 
 This app consumes the Job Tracker Lite REST API (NestJS + MongoDB).
 
-| Route               | Purpose                |
-| ------------------- | ---------------------- |
-| `/api/auth`         | Authentication         |
-| `/api/workspaces`   | Workspaces             |
-| `/api/applications` | Applications           |
-| `/api/users`        | User profile           |
+| Route               | Purpose        |
+| ------------------- | -------------- |
+| `/api/auth`         | Authentication |
+| `/api/workspaces`   | Workspaces     |
+| `/api/applications` | Applications   |
+| `/api/users`        | User profile   |
 
 ## Author
 
