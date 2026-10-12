@@ -1,18 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { Eye, EyeOff, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff, ArrowRight, LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
 
-import { authSchema, type AuthFormValues } from "../schemas/auth.schema";
+import {
+  signInSchema,
+  registerSchema,
+  type AuthFormValues,
+} from "../schemas/auth.schema";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { SocialAuth } from "./SocialAuth";
 import Logo from "../../../components/common/logo";
+import { authClient } from "../../../lib/auth/auth-client";
 
 interface AuthFormProps {
   mode?: "signin" | "register";
@@ -21,13 +28,15 @@ interface AuthFormProps {
 export function AuthForm({ mode = "signin" }: AuthFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const isRegister = mode === "register";
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<AuthFormValues>({
-    resolver: zodResolver(authSchema),
+    resolver: zodResolver(
+      isRegister ? registerSchema : signInSchema,
+    ) as Resolver<AuthFormValues>,
     defaultValues: {
       email: "",
       password: "",
@@ -36,8 +45,32 @@ export function AuthForm({ mode = "signin" }: AuthFormProps) {
   });
 
   const onSubmit = async (data: AuthFormValues) => {
-    // এখানে TanStack Query mutation বা Server Action কল হবে
-    console.log("Submitted Data:", data);
+    if (mode === "signin") {
+      const { error } = await authClient.signIn.email({
+        email: data.email,
+        password: data.password,
+      });
+      if (error) {
+        toast.error(error.message ?? "Something went wrong");
+        return;
+      }
+      toast.success("Login successful");
+      router.push("/dashboard");
+    }
+
+    if (mode === "register") {
+      const { error } = await authClient.signUp.email({
+        name: data.name ?? "",
+        email: data.email,
+        password: data.password,
+      });
+      if (error) {
+        toast.error(error.message ?? "Something went wrong");
+        return;
+      }
+      toast.success("Register successful");
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -78,7 +111,11 @@ export function AuthForm({ mode = "signin" }: AuthFormProps) {
         {isRegister && (
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
-            <Input id="name" placeholder="John Doe" {...register("name")} />
+            <Input
+              id="name"
+              placeholder="John Doe"
+              {...register("name")}
+            />
             {errors.name && (
               <p className="text-xs text-destructive">{errors.name.message}</p>
             )}
@@ -110,6 +147,7 @@ export function AuthForm({ mode = "signin" }: AuthFormProps) {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
             >
               {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -127,8 +165,17 @@ export function AuthForm({ mode = "signin" }: AuthFormProps) {
           className="w-full gap-2 mt-2"
           disabled={isSubmitting}
         >
-          {isRegister ? "Create Account" : "Sign In with Email"}{" "}
-          <ArrowRight size={16} />
+          {isSubmitting ? (
+            <>
+              {isRegister ? "Creating account..." : "Signing in..."}
+              <LoaderCircle size={16} className="animate-spin" />
+            </>
+          ) : (
+            <>
+              {isRegister ? "Create Account" : "Sign In with Email"}
+              <ArrowRight size={16} />
+            </>
+          )}
         </Button>
       </form>
 

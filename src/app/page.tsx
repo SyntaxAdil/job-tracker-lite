@@ -5,12 +5,8 @@ import { Button } from "../components/ui/button";
 import { redirect } from "next/navigation";
 
 const Home = () => {
-  let auth = false;
-  if (auth) {
-    redirect("/dashboard");
-  } else {
-    redirect("/signin");
-  }
+  
+  redirect("/signin");
 };
 
 export default Home;
