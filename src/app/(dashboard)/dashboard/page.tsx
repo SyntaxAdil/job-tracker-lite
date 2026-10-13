@@ -11,7 +11,7 @@ const DashboardPage = () => {
     isPending ? <Loader2 className="animate-spin"></Loader2> : text;
   return (
     <div>
-      {user ? (
+      {/* {user ? (
         <Button onClick={async () => await signOut()}>
           {loadingSpinnerText("SignOut")}
         </Button>
@@ -19,7 +19,7 @@ const DashboardPage = () => {
         <Link href={"/signin"}>
           <Button>{loadingSpinnerText("SignIn")}</Button>
         </Link>
-      )}
+      )} */}
     </div>
   );
 };
