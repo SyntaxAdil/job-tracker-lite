@@ -10,5 +10,5 @@ export const dashboardNavItems: NavItem[] = [
   { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { title: "Workspaces", icon: Briefcase, href: "/dashboard/workspaces" },
   { title: "Applications", icon: FileText, href: "/dashboard/applications" },
-  { title: "Settings", icon: Settings, href: "/dashboard/settings" },
+  // { title: "Settings", icon: Settings, href: "/dashboard/settings" },
 ];
