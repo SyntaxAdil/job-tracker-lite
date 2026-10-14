@@ -1,7 +1,7 @@
-export async function api<T>(path: string, init: RequestInit): Promise<T> {
+export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
     ...init,
-    headers: { "Content-type": "application/json", ...init.headers },
+    headers: { "Content-type": "application/json", ...init?.headers },
   });
 
   const body = await res.json().catch(() => null);

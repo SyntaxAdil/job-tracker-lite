@@ -121,8 +121,7 @@ export default function DashboardSidebar(): React.JSX.Element {
                 <div className="relative size-8 rounded-full overflow-hidden border border-border shrink-0 bg-muted">
                   <Image
                     src={
-                      userClient?.image ||
-                      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100"
+                      userClient?.image || "https://placehold.net/avatar-1.png"
                     }
                     alt="Profile"
                     fill
