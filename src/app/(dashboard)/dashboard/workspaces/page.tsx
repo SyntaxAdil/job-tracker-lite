@@ -1,9 +1,5 @@
-import React from 'react'
+import { WorkspaceList } from "@/features/workspaces/components/WorkspaceList";
 
-const WorkspacePages = () => {
-  return (
-    <div>WorkspacePages</div>
-  )
+export default function WorkspacesPage() {
+  return <WorkspaceList />;
 }
-
-export default WorkspacePages

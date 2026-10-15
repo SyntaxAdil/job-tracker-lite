@@ -7,7 +7,7 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const body = await res.json().catch(() => null);
 
   if (res.status === 401) {
-    window.location.href = "singin";
+    window.location.href = "signin";
   }
   if (!res.ok) {
     throw new Error(body?.message ?? "Something went wrong");

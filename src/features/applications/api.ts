@@ -1,4 +1,4 @@
-import { api } from "../../lib/api/api";
+import { api } from "@/lib/api/api";
 import type { IApplication } from "./interface";
 import type { applicationInput } from "./schema/application-schema";
 

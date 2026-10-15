@@ -9,6 +9,6 @@ export interface NavItem {
 export const dashboardNavItems: NavItem[] = [
   { title: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
   { title: "Workspaces", icon: Briefcase, href: "/dashboard/workspaces" },
-  { title: "Applications", icon: FileText, href: "/dashboard/applications" },
+  { title: "Applications", icon: FileText, href: "/dashboard/workspaces/applications" },
   // { title: "Settings", icon: Settings, href: "/dashboard/settings" },
 ];
