@@ -32,7 +32,7 @@ export default function DashboardSidebar(): React.JSX.Element {
   const handleSignOut = async (): Promise<void> => {
     await authClient.signOut();
     refetch();
-    router.push("/");
+    router.push("/signin");
   };
 
   return (

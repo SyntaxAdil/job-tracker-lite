@@ -95,16 +95,16 @@ export function AuthForm({ mode = "signin" }: AuthFormProps) {
       </div>
 
       {/* Social Logins */}
-      <SocialAuth />
+      {/* <SocialAuth /> */}
 
-      <div className="relative my-6 text-center">
+      {/* <div className="relative my-6 text-center">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-border"></div>
         </div>
         <span className="relative bg-card px-3 text-xs uppercase tracking-wider text-muted-foreground">
           Or continue with email
         </span>
-      </div>
+      </div> */}
 
       {/* Form */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -193,7 +193,7 @@ export function AuthForm({ mode = "signin" }: AuthFormProps) {
           </p>
         ) : (
           <p>
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/register"
               className="text-primary font-medium hover:underline"
