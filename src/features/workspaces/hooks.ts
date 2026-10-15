@@ -8,7 +8,7 @@ import { workspaceApi } from "./api";
 import { toast } from "sonner";
 import type { workspaceInput } from "./schema/workspaces-schema";
 
-const workspacesKey = {
+export const workspacesKey = {
   all: ["workspaces"] as const,
   list: (archive?: boolean) => [...workspacesKey.all, "list", archive] as const,
 };

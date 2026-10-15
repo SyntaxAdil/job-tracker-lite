@@ -26,5 +26,5 @@ export const workspaceApi = {
     }),
 
   remove: (id: string) =>
-    api<IWorkspace>(`${workspaceApiPrefix}/${id}`, { method: "DELETE" }),
+    api<void>(`${workspaceApiPrefix}/${id}`, { method: "DELETE" }),
 };
