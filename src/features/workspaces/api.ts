@@ -1,25 +1,30 @@
 import { api } from "../../lib/api/api";
 import { IWorkspace } from "./interface";
-import { workspaceInput } from "./schema/workspace-schema";
+import { workspaceInput } from "./schema/workspaces-schema";
 
-export const workspacesApi = {
-  list: (archive = false) =>
-    api<IWorkspace[]>(`/workspaces/me?archive=${archive}`),
+const workspaceApiPrefix = "/workspaces";
+
+export const workspaceApi = {
+  list: (archive: boolean) =>
+    api<IWorkspace[]>(`${workspaceApiPrefix}/me?archive=${archive}`),
 
   create: (body: workspaceInput) =>
-    api<IWorkspace>(`/workspaces`, {
+    api<IWorkspace>(`${workspaceApiPrefix}`, {
       method: "POST",
       body: JSON.stringify(body),
     }),
 
   update: (id: string, body: Partial<workspaceInput>) =>
-    api<IWorkspace>(`/workspaces/${id}`, {
+    api<IWorkspace>(`${workspaceApiPrefix}/${id}`, {
       method: "PATCH",
       body: JSON.stringify(body),
     }),
 
-  toggleArchive: (id: string) =>
-    api<IWorkspace>(`/workspaces/${id}/archive`, { method: "PATCH" }),
+  toogleArchive: (id: string) =>
+    api<IWorkspace>(`${workspaceApiPrefix}/${id}/archive`, {
+      method: "PATCH",
+    }),
 
-  remove: (id: string) => api<void>(`/workspaces/${id}`, { method: "DELETE" }),
+  remove: (id: string) =>
+    api<IWorkspace>(`${workspaceApiPrefix}/${id}`, { method: "DELETE" }),
 };
