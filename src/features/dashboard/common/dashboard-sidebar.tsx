@@ -153,7 +153,7 @@ export default function DashboardSidebar(): React.JSX.Element {
               }`}
             >
               {isLoading ? (
-                <Loader2 className="size-4 shrink-0" />
+                <Loader2 className="size-4 shrink-0 animate-spin" />
               ) : (
                 <LogOut className="size-4 shrink-0" />
               )}
