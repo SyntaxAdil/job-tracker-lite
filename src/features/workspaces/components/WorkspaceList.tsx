@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -9,7 +10,12 @@ import { ConfirmDialog } from "@/components/common/confirm-dialog";
 import { EmptyState } from "@/components/common/empty-state";
 import { LoadingBlock } from "@/components/common/loading-block";
 import { SegmentedControl } from "@/components/common/segmented-control";
-import { useRemoveWorkspace, useToggleArchive, useWorkspaces } from "../hooks";
+import { DashboardHeader } from "@/features/dashboard/common/dashboard-header";
+import {
+  useRemoveWorkspace,
+  useToggleArchive,
+  useWorkspaces,
+} from "../hooks";
 import type { IWorkspace } from "../interface";
 import { WorkspaceCard } from "./WorkspaceCard";
 import { WorkspaceFormDialog } from "./WorkspaceFormDialog";
@@ -22,6 +28,7 @@ export function WorkspaceList({ mode }: { mode?: "new" }) {
   const [archive, setArchive] = useState(false);
   const [editing, setEditing] = useState<IWorkspace | null>(null);
   const [deleting, setDeleting] = useState<IWorkspace | null>(null);
+
   const { data, isPending, error } = useWorkspaces(archive);
   const toggle = useToggleArchive();
   const remove = useRemoveWorkspace();
@@ -32,6 +39,7 @@ export function WorkspaceList({ mode }: { mode?: "new" }) {
   };
 
   let content;
+
   if (isPending) {
     content = (
       <div className={GRID}>
@@ -74,27 +82,26 @@ export function WorkspaceList({ mode }: { mode?: "new" }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">Workspaces</h1>
-          <p className="text-sm text-muted-foreground">
-            Organize applications by job search.
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <SegmentedControl
-            value={archive ? "archived" : "active"}
-            onChange={(v) => setArchive(v === "archived")}
-            options={[
-              { value: "active", label: "Active" },
-              { value: "archived", label: "Archived" },
-            ]}
-          />
-          <Link href={`${BASE}/new`} className={buttonVariants()}>
-            <FiPlus /> New workspace
-          </Link>
-        </div>
-      </div>
+      <DashboardHeader
+        title="Workspaces"
+        description="Organize applications by job search."
+        actions={
+          <>
+            <SegmentedControl
+              value={archive ? "archived" : "active"}
+              onChange={(v) => setArchive(v === "archived")}
+              options={[
+                { value: "active", label: "Active" },
+                { value: "archived", label: "Archived" },
+              ]}
+            />
+
+            <Link href={`${BASE}/new`} className={buttonVariants()}>
+              <FiPlus /> New workspace
+            </Link>
+          </>
+        }
+      />
 
       {content}
 

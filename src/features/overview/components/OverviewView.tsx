@@ -1,7 +1,13 @@
+
 "use client";
 
 import { useMemo } from "react";
-import { FiBriefcase, FiCalendar, FiCheckCircle, FiPercent } from "react-icons/fi";
+import {
+  FiBriefcase,
+  FiCalendar,
+  FiCheckCircle,
+  FiPercent,
+} from "react-icons/fi";
 import { LoadingBlock } from "@/components/common/loading-block";
 import { useApplications } from "@/features/applications/hooks";
 import { getOverview } from "../utils";
@@ -10,6 +16,7 @@ import { BarList } from "./BarList";
 import { MonthlyChart } from "./MonthlyChart";
 import { StatCard } from "./StatCard";
 import { StatusDonut } from "./StatusDonut";
+import { DashboardHeader } from "../../dashboard/common/dashboard-header";
 
 export function OverviewView() {
   const { data, isLoading, isError } = useApplications();
@@ -26,23 +33,29 @@ export function OverviewView() {
   }
 
   if (isError) {
-    return <p className="text-sm text-destructive">Failed to load overview.</p>;
+    return (
+      <p className="text-sm text-destructive">
+        Failed to load overview.
+      </p>
+    );
   }
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Overview</h1>
-        <p className="text-sm text-muted-foreground">
-          Your job search at a glance.
-        </p>
-      </div>
+      <DashboardHeader
+        title="Overview"
+        description="Your job search at a glance."
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Applications" value={o.total} icon={FiBriefcase} />
         <StatCard label="Interviews" value={o.interviews} icon={FiCalendar} />
         <StatCard label="Selected" value={o.selected} icon={FiCheckCircle} />
-        <StatCard label="Response rate" value={`${o.responseRate}%`} icon={FiPercent} />
+        <StatCard
+          label="Response rate"
+          value={`${o.responseRate}%`}
+          icon={FiPercent}
+        />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">

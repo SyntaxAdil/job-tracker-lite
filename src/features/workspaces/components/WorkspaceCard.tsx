@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -12,7 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { IconButton } from "@/components/common/icon-button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import type { IWorkspace } from "../interface";
 
 type Props = {
@@ -22,8 +28,16 @@ type Props = {
   onDelete: () => void;
 };
 
-export function WorkspaceCard({ workspace, onEdit, onArchive, onDelete }: Props) {
+export function WorkspaceCard({
+  workspace,
+  onEdit,
+  onArchive,
+  onDelete,
+}: Props) {
   const href = `/dashboard/workspaces/applications?workspaceId=${workspace.id}`;
+
+  const iconButtonClass =
+    "inline-flex size-8 shrink-0 items-center justify-center rounded-md text-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50";
 
   return (
     <Card className="animate-in fade-in slide-in-from-bottom-2 duration-300 transition-shadow hover:shadow-md">
@@ -34,33 +48,70 @@ export function WorkspaceCard({ workspace, onEdit, onArchive, onDelete }: Props)
             {workspace.name}
           </Link>
         </CardTitle>
+
         <CardDescription className="line-clamp-2 min-h-10">
           {workspace.description || "No description"}
         </CardDescription>
       </CardHeader>
+
       <CardContent>
         <Badge variant="secondary">
           {workspace.applications.length} applications
         </Badge>
       </CardContent>
+
       <CardFooter className="justify-between">
-        <Link href={href} className={buttonVariants({ variant: "outline", size: "sm" })}>
+        <Link
+          href={href}
+          className={buttonVariants({ variant: "outline", size: "sm" })}
+        >
           Open
         </Link>
-        <div className="flex gap-1">
-          <IconButton icon={FiEdit2} label="Edit" onClick={onEdit} />
-          <IconButton
-            icon={FiArchive}
-            label={workspace.isArchived ? "Unarchive" : "Archive"}
-            onClick={onArchive}
-          />
-          <IconButton
-            icon={FiTrash2}
-            label="Delete"
-            onClick={onDelete}
-            className="hover:text-destructive"
-          />
-        </div>
+
+        <TooltipProvider>
+          <div className="flex gap-1">
+            <Tooltip>
+              <TooltipTrigger
+                className={iconButtonClass}
+                aria-label="Edit workspace"
+                onClick={onEdit}
+              >
+                <FiEdit2 className="size-4" />
+              </TooltipTrigger>
+              <TooltipContent>
+                Edit workspace
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger
+                className={iconButtonClass}
+                aria-label={workspace.isArchived ? "Unarchive" : "Archive"}
+                onClick={onArchive}
+              >
+                <FiArchive className="size-4" />
+              </TooltipTrigger>
+              <TooltipContent>
+                {workspace.isArchived
+                  ? "Unarchive workspace"
+                  : "Archive workspace"}
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger
+                className={`${iconButtonClass} hover:text-destructive`}
+                aria-label="Delete workspace"
+                onClick={onDelete}
+              >
+                <FiTrash2 className="size-4" />
+              </TooltipTrigger>
+              <TooltipContent>
+                Delete workspace
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </TooltipProvider>
       </CardFooter>
     </Card>
   );

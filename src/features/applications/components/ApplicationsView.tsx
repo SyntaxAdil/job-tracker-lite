@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -15,6 +16,7 @@ import { ConfirmDialog } from "@/components/common/confirm-dialog";
 import { EmptyState } from "@/components/common/empty-state";
 import { LoadingBlock } from "@/components/common/loading-block";
 import { SegmentedControl } from "@/components/common/segmented-control";
+import { DashboardHeader } from "@/features/dashboard/common/dashboard-header";
 import {
   useApplications,
   useRemoveApplication,
@@ -26,9 +28,14 @@ import { ApplicationTable } from "./ApplicationTable";
 
 const BASE = "/dashboard/workspaces";
 
-export function ApplicationsView({ workspaceId }: { workspaceId?: string }) {
+export function ApplicationsView({
+  workspaceId,
+}: {
+  workspaceId?: string;
+}) {
   const [view, setView] = useState<"table" | "board">("table");
   const [deleting, setDeleting] = useState<IApplication | null>(null);
+
   const { data, isPending, error } = useApplications(workspaceId);
   const update = useUpdateApplication();
   const remove = useRemoveApplication();
@@ -50,6 +57,7 @@ export function ApplicationsView({ workspaceId }: { workspaceId?: string }) {
   const newHref = `${BASE}/applications/new?workspaceId=${workspaceId}`;
 
   let content;
+
   if (isPending) {
     content = <LoadingBlock className="h-64" />;
   } else if (error) {
@@ -67,7 +75,12 @@ export function ApplicationsView({ workspaceId }: { workspaceId?: string }) {
       </EmptyState>
     );
   } else if (view === "table") {
-    content = <ApplicationTable applications={data} onDelete={setDeleting} />;
+    content = (
+      <ApplicationTable
+        applications={data}
+        onDelete={setDeleting}
+      />
+    );
   } else {
     content = (
       <ApplicationBoard
@@ -82,32 +95,33 @@ export function ApplicationsView({ workspaceId }: { workspaceId?: string }) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
+      <DashboardHeader
+        title="Applications"
+        leading={
           <Link
             href={BASE}
-            className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+            className="mb-1 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
           >
             <FiArrowLeft /> Workspaces
           </Link>
-          <h1 className="mt-1 text-2xl font-bold tracking-tight">
-            Applications
-          </h1>
-        </div>
-        <div className="flex items-center gap-2">
-          <SegmentedControl
-            value={view}
-            onChange={setView}
-            options={[
-              { value: "table", label: "Table", icon: FiList },
-              { value: "board", label: "Board", icon: FiColumns },
-            ]}
-          />
-          <Link href={newHref} className={buttonVariants()}>
-            <FiPlus /> New application
-          </Link>
-        </div>
-      </div>
+        }
+        actions={
+          <>
+            <SegmentedControl
+              value={view}
+              onChange={setView}
+              options={[
+                { value: "table", label: "Table", icon: FiList },
+                { value: "board", label: "Board", icon: FiColumns },
+              ]}
+            />
+
+            <Link href={newHref} className={buttonVariants()}>
+              <FiPlus /> New application
+            </Link>
+          </>
+        }
+      />
 
       {content}
 
