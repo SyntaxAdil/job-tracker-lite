@@ -19,6 +19,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { authClient, useSession } from "@/lib/auth/auth-client";
 import Logo from "@/components/common/logo";
 import { dashboardNavItems } from "@/features/dashboard/data/dashboard";
+import { toast } from "sonner";
+import { useState } from "react";
 
 export default function DashboardSidebar(): React.JSX.Element {
   const pathname = usePathname();
@@ -26,11 +28,16 @@ export default function DashboardSidebar(): React.JSX.Element {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
   const { data: session, isPending, refetch } = useSession();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const userClient = session?.user;
 
   const handleSignOut = async (): Promise<void> => {
+    setIsLoading(true);
     await authClient.signOut();
+    setIsLoading(false);
+
+    toast.success("Redirecting to SignIn...");
     refetch();
     router.push("/signin");
   };
@@ -145,8 +152,14 @@ export default function DashboardSidebar(): React.JSX.Element {
                 isCollapsed ? "size-10 p-0" : "h-9 gap-2 px-3"
               }`}
             >
-              <LogOut className="size-4 shrink-0" />
-              {!isCollapsed && <span>Logout</span>}
+              {isLoading ? (
+                <Loader2 className="size-4 shrink-0" />
+              ) : (
+                <LogOut className="size-4 shrink-0" />
+              )}
+              {!isCollapsed && (
+                <span>{isLoading ? "SigningOut..." : "SignOut"}</span>
+              )}
             </button>
           </>
         )}
